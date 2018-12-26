@@ -15,12 +15,15 @@ class UploadView(FormView):
     def form_valid(self, form):
         csvfile = io.TextIOWrapper(form.cleaned_data['file'])
 
-        # ここを必要な処理に変える
+        # この部分をあなたのコードに差し替えます。
         reader = csv.reader(csvfile)
         count = sum(1 for row in reader)
         result = 'データ件数は{}件です'.format(count)
 
-        response = HttpResponse(result, content_type='text/plain')
-        response['Content-Disposition'] = 'attachment; filename = "result.txt"'
+        # 結果をブラウザに表示させたいときはこちら
+        return self.render_to_response(self.get_context_data(result=result))
 
-        return response
+        # 結果をテキストファイルでダウンロードさせたいときはこちら
+        # response = HttpResponse(result, content_type='text/plain')
+        # response['Content-Disposition'] = 'attachment; filename = "result.txt"'
+        # return response
